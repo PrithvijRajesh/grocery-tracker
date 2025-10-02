@@ -14,9 +14,12 @@ struct PersistenceController {
     static let preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
-        for _ in 0..<10 {
+        for i in 0..<10 {
             let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
+            newItem.name = "Sample Item \(i+1)"
+            newItem.quantity = Int16((i+1)*2)
+            newItem.purchaseDate = Date()
+            newItem.expirationDate = Calendar.current.date(byAdding: .day, value: 7, to: Date())!
         }
         do {
             try viewContext.save()
